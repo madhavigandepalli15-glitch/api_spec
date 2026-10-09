@@ -1,45 +1,43 @@
-
-name: Deploy MuleSoft to CloudHub 2.0
-
+name: Mule Deploy
 on:
-  workflow_dispatch:
   push:
     branches:
       - master
-
-permissions:
-  contents: read
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: Sandbox
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-          cache: maven
+          java-version: 17
 
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v5
-        with:
-          maven-version: '3.9.8'
-
-      - name: Verify build tools
+      - name: Configure Maven Settings
         run: |
-          java -version
-          mvn -version
-
-      - name: Build and deploy
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml << EOF
+          <settings>
+            <servers>
+              <server>
+                <id>anypoint-exchange-v3</id>
+                <username>~~~Client~~~</username>
+                <password>$ANYPOINT_CLIENT_ID~?~$ANYPOINT_CLIENT_SECRET</password>
+              </server>
+              <server>
+                <id>mulesoft-releases</id>
+                <username>~~~Client~~~</username>
+                <password>$ANYPOINT_CLIENT_ID~?~$ANYPOINT_CLIENT_SECRET</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
         env:
           ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
           ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
-          ANYPOINT_ORG_ID: ${{ secrets.ANYPOINT_ORG_ID }}
-          ANYPOINT_TARGET: ${{ secrets.ANYPOINT_TARGET }}
-        run: mvn --batch-mode clean deploy -DmuleDeploy
+
+      - name: Deploy to CloudHub
+        run: mvn clean deploy mule:deploy --no-transfer-progress
+        env:
+          ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
+          ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
