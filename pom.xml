@@ -13,13 +13,13 @@
 
     <groupId>cfb23ec6-7e3d-4759-81ae-250eb9686003</groupId>
 
-    <artifactId>demo</artifactId>
+    <artifactId>api_spec</artifactId>
 
-    <version>4.0.1</version>
+    <version>5.0.1</version>
 
     <packaging>mule-application</packaging>
 
-    <name>demo</name>
+    <name>api_spec</name>
 
 
     <!-- ========================================================= -->
@@ -108,7 +108,7 @@
                         </businessGroupId>
 
                         <!-- CloudHub Application Name -->
-                        <applicationName>demo</applicationName>
+                        <applicationName>api</applicationName>
 
 
                         <!-- ===================================== -->
