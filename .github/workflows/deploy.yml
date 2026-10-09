@@ -26,6 +26,16 @@ jobs:
           java-version: '17'
           cache: maven
 
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.8'
+
+      - name: Verify build tools
+        run: |
+          java -version
+          mvn -version
+
       - name: Build and deploy
         env:
           ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
