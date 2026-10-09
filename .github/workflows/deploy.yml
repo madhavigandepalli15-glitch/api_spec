@@ -1,0 +1,35 @@
+
+name: Deploy MuleSoft to CloudHub 2.0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: Sandbox
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build and deploy
+        env:
+          ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
+          ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
+          ANYPOINT_ORG_ID: ${{ secrets.ANYPOINT_ORG_ID }}
+          ANYPOINT_TARGET: ${{ secrets.ANYPOINT_TARGET }}
+        run: mvn --batch-mode clean deploy -DmuleDeploy
