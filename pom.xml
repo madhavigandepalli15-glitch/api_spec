@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cfb23ec6-7e3d-4759-81ae-250eb9686003</groupId>
+    <groupId>b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208</groupId>
 
     <artifactId>api_spec</artifactId>
 
@@ -104,7 +104,7 @@
 
                         <!-- Business Group -->
                         <businessGroupId>
-                            cfb23ec6-7e3d-4759-81ae-250eb9686003
+                            b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208
                         </businessGroupId>
 
                         <!-- CloudHub Application Name -->
@@ -283,7 +283,7 @@
             <name>Anypoint Exchange</name>
 
             <url>
-                https://maven.anypoint.mulesoft.com/api/v3/organizations/cfb23ec6-7e3d-4759-81ae-250eb9686003/maven
+                https://maven.anypoint.mulesoft.com/api/v3/organizations/b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208/maven
             </url>
 
         </repository>
