@@ -43,7 +43,7 @@ output application/json
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="8e328643-3386-4518-a60a-aacfddc5fce2" message="#[payload]"/>
 		<set-payload value="#[payload]" doc:name="Set Payload " doc:id="fbade91a-de49-43ab-8516-490b690be78d" />
-		<logger level="INFO" doc:name="Logger" doc:id="90ae2f16-d0a0-43d8-b538-97b0b58f6c98" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="90ae2f16-d0a0-43d8-b538-97b0b58f6c98" message='#["API request received"]'/>
 
     </flow>
 
