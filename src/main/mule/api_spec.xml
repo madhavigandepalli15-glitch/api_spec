@@ -29,7 +29,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
         <logger
             level="INFO"
-            message="#[API request received]"/>
+            message='#["API request received"]'/>
 		<ee:transform doc:name="Transform Message" doc:id="425d9a20-c381-4afb-9d8d-ac6e29ac4647" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
