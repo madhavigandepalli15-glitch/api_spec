@@ -37,7 +37,8 @@ output application/json
 ---
 {
     message: "Hello from MuleSoft",
-    status: "success"
+    status: "success",
+    model: "1.00"
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
