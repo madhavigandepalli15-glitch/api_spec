@@ -1,10 +1,7 @@
 
 name: Mule Deploy
-
 on:
-  push:
-   
-  workflow_dispatch:
+    workflow_dispatch:
 
 permissions:
   contents: read
