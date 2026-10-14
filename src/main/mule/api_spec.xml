@@ -29,21 +29,26 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
         <logger
             level="INFO"
-            message='#["API request received"]'/>
+            message='#["Customer registration request received"]'/>
 		<ee:transform doc:name="Transform Message" doc:id="425d9a20-c381-4afb-9d8d-ac6e29ac4647" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+				<ee:set-payload ><![CDATA[
+%dw 2.0
 output application/json
 ---
 {
-    message: "Hello from MuleSoft",
-    status: "success",
-    model: "1.00"
-}]]></ee:set-payload>
+    message: "Customer registered successfully",
+    customer: {
+        name: payload.name,
+        email: payload.email,
+        city: payload.city
+    },
+    status: "SUCCESS"
+}
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="8e328643-3386-4518-a60a-aacfddc5fce2" message="#[payload]"/>
-		<set-payload value="#[payload]" doc:name="Set Payload " doc:id="fbade91a-de49-43ab-8516-490b690be78d" />
+		<set-variable value="#[payload.customer.name]" doc:name="Set Variable" doc:id="6a4507cd-7810-41b0-9429-fd89f7fdc809" variableName="customerName"/>
 
     </flow>
 
