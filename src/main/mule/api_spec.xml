@@ -32,17 +32,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
             message='#["Customer registration request received"]'/>
 		<ee:transform doc:name="Transform Message" doc:id="425d9a20-c381-4afb-9d8d-ac6e29ac4647" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[
-%dw 2.0
+				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
-var customer = read(payload, "application/json")
 ---
+if (payload == null or (payload is Object and isEmpty(payload)))
+{
+    status: "UP",
+    message: "Customer API is running"
+}
+else
 {
     message: "Customer registered successfully",
     customer: {
-        name: customer.name,
-        email: customer.email,
-        city: customer.city
+        name: payload.name,
+        email: payload.email,
+        city: payload.city
     },
     status: "SUCCESS"
 }
