@@ -34,8 +34,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
+var customer =
+    if (payload is Object)
+        payload
+    else if (payload is Binary and sizeOf(payload) > 0)
+        read(payload, "application/json")
+    else
+        {}
 ---
-if (payload == null or (payload is Object and isEmpty(payload)))
+if (isEmpty(customer))
 {
     status: "UP",
     message: "Customer API is running"
@@ -44,9 +51,9 @@ else
 {
     message: "Customer registered successfully",
     customer: {
-        name: payload.name,
-        email: payload.email,
-        city: payload.city
+        name: customer.name,
+        email: customer.email,
+        city: customer.city
     },
     status: "SUCCESS"
 }
