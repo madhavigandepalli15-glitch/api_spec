@@ -35,13 +35,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload ><![CDATA[
 %dw 2.0
 output application/json
+var customer = read(payload, "application/json")
 ---
 {
     message: "Customer registered successfully",
     customer: {
-        name: payload.name,
-        email: payload.email,
-        city: payload.city
+        name: customer.name,
+        email: customer.email,
+        city: customer.city
     },
     status: "SUCCESS"
 }
