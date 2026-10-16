@@ -13,7 +13,11 @@
 
 	<version>1.0.5</version>
 
+<<<<<<< HEAD
 	<packaging>mule-application</packaging>
+=======
+    <version>1.0.6</version>
+>>>>>>> branch 'master' of https://github.com/madhavigandepalli15-glitch/api_spec.git
 
 	<name>api_spec</name>
 
