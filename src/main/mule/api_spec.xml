@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
       xmlns:http="http://www.mulesoft.org/schema/mule/http"
       xmlns="http://www.mulesoft.org/schema/mule/core"
-      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
         http://www.mulesoft.org/schema/mule/core
         http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/http
         http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 
     <http:listener-config
         name="HTTP_Listener_config"
@@ -19,48 +20,30 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
             host="0.0.0.0"
             port="8081"/>
     </http:listener-config>
-
-    <flow name="api_specFlow">
+	<salesforce:sfdc-config name="Salesforce_Config1" doc:name="Salesforce Config" doc:id="ddc8726e-7ba1-40a7-8447-c634445af19c" >
+		<salesforce:basic-connection username="madhavigandepalli15.fe538fd41d4e@agentforce.com" password="Salesforce@1615" securityToken="Z8FyvlhVUsi1XTO66ga2GvVXh" url="https://login.salesforce.com/services/Soap/u/56.0" />
+	</salesforce:sfdc-config>
+	<flow name="api_specFlow">
 
         <http:listener
             doc:name="Listener"
             config-ref="HTTP_Listener_config"
             path="/path"/>
-
-        <logger
-            level="INFO"
-            message='#["Customer registration request received"]'/>
 		<ee:transform doc:name="Transform Message" doc:id="425d9a20-c381-4afb-9d8d-ac6e29ac4647" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-var customer =
-    if (payload is Object)
-        payload
-    else if (payload is Binary and sizeOf(payload) > 0)
-        read(payload, "application/json")
-    else
-        {}
+output application/java
 ---
-if (isEmpty(customer))
-{
-    status: "UP",
-    message: "Customer API is running"
-}
-else
-{
-    message: "Customer registered successfully",
-    customer: {
-        name: customer.name,
-        email: customer.email,
-        city: customer.city
-    },
-    status: "SUCCESS"
-}
-]]></ee:set-payload>
+[
+    {
+        FirstName: payload.name,
+        LastName: "Unknown",
+        Email: payload.email
+    }
+]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<set-variable value="#[payload.customer.name]" doc:name="Set Variable" doc:id="6a4507cd-7810-41b0-9429-fd89f7fdc809" variableName="customerName"/>
+		<salesforce:create doc:name="Create" doc:id="27659f2c-783e-4da5-918b-c0c7b774088f" config-ref="Salesforce_Config1" type="Contact"/>
 
     </flow>
 

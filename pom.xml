@@ -1,294 +1,277 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- ========================================================= -->
+	<!-- PROJECT INFORMATION                                      -->
+	<!-- ========================================================= -->
 
-    <!-- ========================================================= -->
-    <!-- PROJECT INFORMATION                                      -->
-    <!-- ========================================================= -->
+	<modelVersion>4.0.0</modelVersion>
 
-    <modelVersion>4.0.0</modelVersion>
+	<groupId>b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208</groupId>
 
-    <groupId>b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208</groupId>
+	<artifactId>api_spec</artifactId>
 
-    <artifactId>api_spec</artifactId>
+	<version>1.0.5</version>
 
-    <version>1.0.5</version>
+	<packaging>mule-application</packaging>
 
-    <packaging>mule-application</packaging>
+	<name>api_spec</name>
 
-    <name>api_spec</name>
+	<!-- ========================================================= -->
+	<!-- PROPERTIES                                                -->
+	<!-- ========================================================= -->
 
+	<properties>
 
-    <!-- ========================================================= -->
-    <!-- PROPERTIES                                                -->
-    <!-- ========================================================= -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <properties>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Mule Runtime -->
+		<app.runtime>4.12.0</app.runtime>
 
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- Mule Maven Plugin -->
+		<mule.maven.plugin.version>4.10.1</mule.maven.plugin.version>
 
-        <!-- Mule Runtime -->
-        <app.runtime>4.12.0</app.runtime>
+	</properties>
 
-        <!-- Mule Maven Plugin -->
-        <mule.maven.plugin.version>4.10.1</mule.maven.plugin.version>
+	<!-- ========================================================= -->
+	<!-- BUILD                                                      -->
+	<!-- ========================================================= -->
 
-    </properties>
+	<build>
 
+		<!-- Include resources -->
+		<resources>
 
-    <!-- ========================================================= -->
-    <!-- BUILD                                                      -->
-    <!-- ========================================================= -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
 
-    <build>
+		</resources>
 
-        <!-- Include resources -->
-        <resources>
+		<plugins>
 
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
+			<!-- ================================================= -->
+			<!-- MULE MAVEN PLUGIN                                  -->
+			<!-- ================================================= -->
 
-        </resources>
+			<plugin>
 
+				<groupId>org.mule.tools.maven</groupId>
 
-        <plugins>
+				<artifactId>mule-maven-plugin</artifactId>
 
-            <!-- ================================================= -->
-            <!-- MULE MAVEN PLUGIN                                  -->
-            <!-- ================================================= -->
+				<version>${mule.maven.plugin.version}</version>
 
-            <plugin>
+				<extensions>true</extensions>
 
-                <groupId>org.mule.tools.maven</groupId>
+				<configuration>
 
-                <artifactId>mule-maven-plugin</artifactId>
+					<!-- ========================================= -->
+					<!-- Mule Application Artifact                 -->
+					<!-- ========================================= -->
 
-                <version>${mule.maven.plugin.version}</version>
+					<classifier>mule-application</classifier>
 
-                <extensions>true</extensions>
+					<!-- ========================================= -->
+					<!-- CloudHub 2.0 Deployment                   -->
+					<!-- ========================================= -->
 
+					<cloudhub2Deployment>
 
-                <configuration>
+						<!-- Anypoint Platform URL -->
+						<uri>https://anypoint.mulesoft.com</uri>
 
-                    <!-- ========================================= -->
-                    <!-- Mule Application Artifact                 -->
-                    <!-- ========================================= -->
+						<!-- MuleSoft Cloud -->
+						<provider>MC</provider>
 
-                    <classifier>mule-application</classifier>
+						<!-- Environment -->
+						<environment>Sandbox</environment>
 
+						<!-- CloudHub 2.0 Target -->
+						<target>Cloudhub-US-East-2</target>
 
-                    <!-- ========================================= -->
-                    <!-- CloudHub 2.0 Deployment                   -->
-                    <!-- ========================================= -->
+						<!-- Business Group -->
+						<businessGroupId>
+							b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208
+						</businessGroupId>
 
-                    <cloudhub2Deployment>
+						<!-- CloudHub Application Name -->
+						<applicationName>api</applicationName>
 
-                        <!-- Anypoint Platform URL -->
-                        <uri>https://anypoint.mulesoft.com</uri>
+						<!-- ===================================== -->
+						<!-- Connected App Authentication           -->
+						<!-- ===================================== -->
 
-                        <!-- MuleSoft Cloud -->
-                        <provider>MC</provider>
+						<connectedAppClientId>
+							${env.ANYPOINT_CLIENT_ID}
+						</connectedAppClientId>
 
-                        <!-- Environment -->
-                        <environment>Sandbox</environment>
+						<connectedAppClientSecret>
+							${env.ANYPOINT_CLIENT_SECRET}
+						</connectedAppClientSecret>
 
-                        <!-- CloudHub 2.0 Target -->
-                        <target>Cloudhub-US-East-2</target>
+						<connectedAppGrantType>
+							client_credentials
+						</connectedAppGrantType>
 
-                        <!-- Business Group -->
-                        <businessGroupId>
-                            b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208
-                        </businessGroupId>
+						<!-- ===================================== -->
+						<!-- Mule Runtime                           -->
+						<!-- ===================================== -->
 
-                        <!-- CloudHub Application Name -->
-                        <applicationName>api</applicationName>
+						<muleVersion>${app.runtime}</muleVersion>
 
+						<releaseChannel>EDGE</releaseChannel>
 
-                        <!-- ===================================== -->
-                        <!-- Connected App Authentication           -->
-                        <!-- ===================================== -->
+						<javaVersion>17</javaVersion>
 
-                        <connectedAppClientId>
-                            ${env.ANYPOINT_CLIENT_ID}
-                        </connectedAppClientId>
+						<!-- ===================================== -->
+						<!-- CloudHub Capacity                      -->
+						<!-- ===================================== -->
 
-                        <connectedAppClientSecret>
-                            ${env.ANYPOINT_CLIENT_SECRET}
-                        </connectedAppClientSecret>
+						<replicas>1</replicas>
 
-                        <connectedAppGrantType>
-                            client_credentials
-                        </connectedAppGrantType>
+						<vCores>0.1</vCores>
 
+						<!-- Deployment timeout -->
+						<deploymentTimeout>1800000</deploymentTimeout>
 
-                        <!-- ===================================== -->
-                        <!-- Mule Runtime                           -->
-                        <!-- ===================================== -->
+					</cloudhub2Deployment>
 
-                        <muleVersion>${app.runtime}</muleVersion>
+				</configuration>
 
-                        <releaseChannel>EDGE</releaseChannel>
+			</plugin>
 
-                        <javaVersion>17</javaVersion>
+		</plugins>
 
+	</build>
 
-                        <!-- ===================================== -->
-                        <!-- CloudHub Capacity                      -->
-                        <!-- ===================================== -->
+	<!-- ========================================================= -->
+	<!-- DEPENDENCIES                                               -->
+	<!-- ========================================================= -->
 
-                        <replicas>1</replicas>
+	<dependencies>
 
-                        <vCores>0.1</vCores>
+		<!-- ===================================================== -->
+		<!-- HTTP CONNECTOR                                         -->
+		<!-- ===================================================== -->
 
+		<dependency>
 
-                        <!-- Deployment timeout -->
-                        <deploymentTimeout>1800000</deploymentTimeout>
+			<groupId>org.mule.connectors</groupId>
 
-                    </cloudhub2Deployment>
+			<artifactId>mule-http-connector</artifactId>
 
-                </configuration>
+			<version>1.10.3</version>
 
-            </plugin>
+			<classifier>mule-plugin</classifier>
 
-        </plugins>
+		</dependency>
 
-    </build>
+		<!-- ===================================================== -->
+		<!-- SOCKETS CONNECTOR                                      -->
+		<!-- ===================================================== -->
 
+		<dependency>
 
-    <!-- ========================================================= -->
-    <!-- DEPENDENCIES                                               -->
-    <!-- ========================================================= -->
+			<groupId>org.mule.connectors</groupId>
 
-    <dependencies>
+			<artifactId>mule-sockets-connector</artifactId>
 
+			<version>1.2.5</version>
 
-        <!-- ===================================================== -->
-        <!-- HTTP CONNECTOR                                         -->
-        <!-- ===================================================== -->
+			<classifier>mule-plugin</classifier>
 
-        <dependency>
+		</dependency>
 
-            <groupId>org.mule.connectors</groupId>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-salesforce-connector</artifactId>
+			<version>11.3.3</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+	</dependencies>
 
-            <artifactId>mule-http-connector</artifactId>
+	<!-- ========================================================= -->
+	<!-- REPOSITORIES                                               -->
+	<!-- ========================================================= -->
 
-            <version>1.10.3</version>
+	<repositories>
 
-            <classifier>mule-plugin</classifier>
+		<!-- MuleSoft Releases -->
+		<repository>
 
-        </dependency>
+			<id>mulesoft-releases</id>
 
+			<name>MuleSoft Releases</name>
 
-        <!-- ===================================================== -->
-        <!-- SOCKETS CONNECTOR                                      -->
-        <!-- ===================================================== -->
+			<url>
+				https://repository.mulesoft.org/releases/
+			</url>
 
-        <dependency>
+		</repository>
 
-            <groupId>org.mule.connectors</groupId>
+		<!-- Anypoint Exchange -->
+		<repository>
 
-            <artifactId>mule-sockets-connector</artifactId>
+			<id>anypoint-exchange-v3</id>
 
-            <version>1.2.5</version>
+			<name>Anypoint Exchange</name>
 
-            <classifier>mule-plugin</classifier>
+			<url>
+				https://maven.anypoint.mulesoft.com/api/v3/maven
+			</url>
 
-        </dependency>
+		</repository>
 
+	</repositories>
 
-    </dependencies>
+	<!-- ========================================================= -->
+	<!-- PLUGIN REPOSITORIES                                        -->
+	<!-- ========================================================= -->
 
+	<pluginRepositories>
 
-    <!-- ========================================================= -->
-    <!-- REPOSITORIES                                               -->
-    <!-- ========================================================= -->
+		<pluginRepository>
 
-    <repositories>
+			<id>mulesoft-releases</id>
 
+			<name>MuleSoft Releases</name>
 
-        <!-- MuleSoft Releases -->
-        <repository>
+			<url>
+				https://repository.mulesoft.org/releases/
+			</url>
 
-            <id>mulesoft-releases</id>
+			<snapshots>
 
-            <name>MuleSoft Releases</name>
+				<enabled>false</enabled>
 
-            <url>
-                https://repository.mulesoft.org/releases/
-            </url>
+			</snapshots>
 
-        </repository>
+		</pluginRepository>
 
+	</pluginRepositories>
 
-        <!-- Anypoint Exchange -->
-        <repository>
+	<!-- ========================================================= -->
+	<!-- DISTRIBUTION MANAGEMENT                                    -->
+	<!-- ========================================================= -->
 
-            <id>anypoint-exchange-v3</id>
+	<distributionManagement>
 
-            <name>Anypoint Exchange</name>
+		<repository>
 
-            <url>
-                https://maven.anypoint.mulesoft.com/api/v3/maven
-            </url>
+			<id>anypoint-exchange-v3</id>
 
-        </repository>
+			<name>Anypoint Exchange</name>
 
-    </repositories>
+			<url>
+				https://maven.anypoint.mulesoft.com/api/v3/organizations/b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208/maven
+			</url>
 
+		</repository>
 
-    <!-- ========================================================= -->
-    <!-- PLUGIN REPOSITORIES                                        -->
-    <!-- ========================================================= -->
-
-    <pluginRepositories>
-
-        <pluginRepository>
-
-            <id>mulesoft-releases</id>
-
-            <name>MuleSoft Releases</name>
-
-            <url>
-                https://repository.mulesoft.org/releases/
-            </url>
-
-            <snapshots>
-
-                <enabled>false</enabled>
-
-            </snapshots>
-
-        </pluginRepository>
-
-    </pluginRepositories>
-
-
-    <!-- ========================================================= -->
-    <!-- DISTRIBUTION MANAGEMENT                                    -->
-    <!-- ========================================================= -->
-
-    <distributionManagement>
-
-        <repository>
-
-            <id>anypoint-exchange-v3</id>
-
-            <name>Anypoint Exchange</name>
-
-            <url>
-                https://maven.anypoint.mulesoft.com/api/v3/organizations/b40efaf4-bfcb-4a6b-ac58-f7b0a5c29208/maven
-            </url>
-
-        </repository>
-
-    </distributionManagement>
-
+	</distributionManagement>
 
 </project>
